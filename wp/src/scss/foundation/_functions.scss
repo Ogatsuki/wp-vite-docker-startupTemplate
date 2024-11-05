@@ -1,0 +1,13 @@
+@use 'var';
+
+@function pvw($pix) {
+  @return calc($pix * (100vw / 1200));
+}
+
+@function pvwh($pix) {
+  @return  calc(($pix / 2) * 1px + ($pix / 2) * (100vw / 1200));
+}
+
+@function prem($pix) {
+  @return clac(($pix / 16) * 1rem);
+}

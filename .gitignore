@@ -1,0 +1,8 @@
+/build/
+/dist/
+*.log
+.env
+.env.local
+node_modules
+db
+wp/wordpress

@@ -1,0 +1,35 @@
+version: "3"
+services:
+  db_service:
+    platform: linux/amd64
+    image: mysql:5.7
+    container_name: db_container
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: 'no'
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpasswd  # 状況に応じて変更
+      MYSQL_DATABASE: wordpress  # 状況に応じて変更
+      MYSQL_USER: user  # 状況に応じて変更
+      MYSQL_PASSWORD: wppasswd  # 状況に応じて変更
+
+  wp_service:
+    platform: linux/amd64
+    depends_on:
+      - db_service
+    image: wordpress:latest
+    container_name: wp_container
+    ports:
+      - "8000:80"
+    restart: 'no'
+    volumes:
+      - ./wp/wordpress:/var/www/html
+      - ./wp/wordpress/wp-content:/var/www/html/wp-content
+      - ./wp/wordpress/wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./wp/wordpress/wp-content/uploads:/var/www/html/wp-content/uploads
+      - ./wp/src:/var/www/html/wp-content/themes/project
+    environment:
+      WORDPRESS_DB_HOST: db_service
+      WORDPRESS_DB_USER: user  # 状況に応じて変更
+      WORDPRESS_DB_PASSWORD: wppasswd  # 状況に応じて変更
+      WORDPRESS_DB_NAME: wordpress
